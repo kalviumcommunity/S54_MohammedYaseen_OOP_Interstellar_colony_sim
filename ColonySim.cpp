@@ -9,10 +9,10 @@ private:
     int population;
 
 public:
-    Colony(string n, int pop) : name(n), population(pop) {}
+    Colony(string n = "Unknown", int pop = 0) : name(n), population(pop) {}
 
     void growPopulation(int amount) {
-        this->population += amount; // Using this pointer to access population
+        this->population += amount; 
         cout << "The population of " << this->name << " has grown by " << amount << ". New population: " << this->population << endl;
     }
 
@@ -20,9 +20,8 @@ public:
         cout << "The current population of " << this->name << " is " << this->population << "." << endl;
     }
 
-    // Getter methods
     string getName() {
-        return this->name; // Using this pointer in a getter method
+        return this->name; 
     }
 
     int getPopulation() {
@@ -36,7 +35,7 @@ private:
     int strength;
 
 public:
-    Alien(string sName, int str) : speciesName(sName), strength(str) {}
+    Alien(string sName = "Unknown", int str = 0) : speciesName(sName), strength(str) {}
 
     void attack(Colony &colony) {
         cout << "The " << this->speciesName << " attacks the colony " << colony.getName() << "!" << endl;
@@ -48,19 +47,37 @@ public:
     }
 
     string getSpeciesName() {
-        return this->speciesName; // Using this pointer in another getter
+        return this->speciesName; 
     }
 };
 
 // Main function
 int main() {
-    Colony earthColony("Earth Colony", 100);
-    Alien alienSpecies("Xenomorph", 120);
+    // Array of Colony objects
+    Colony colonies[3] = { 
+        Colony("Earth Colony", 100), 
+        Colony("Mars Colony", 150), 
+        Colony("Jupiter Colony", 80) 
+    };
 
-    // Using the member functions
-    earthColony.reportPopulation();
-    earthColony.growPopulation(20);
-    alienSpecies.attack(earthColony);
+    // Array of Alien objects
+    Alien alienSpecies[2] = { 
+        Alien("Xenomorph", 120), 
+        Alien("Predator", 200) 
+    };
+
+    // Report populations of all colonies
+    for(int i = 0; i < 3; i++) {
+        colonies[i].reportPopulation();
+    }
+
+    // Grow population of the first colony
+    colonies[0].growPopulation(50);
+
+    // Aliens attack different colonies
+    alienSpecies[0].attack(colonies[0]);
+    alienSpecies[1].attack(colonies[2]);
 
     return 0;
 }
+
