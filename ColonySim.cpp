@@ -7,15 +7,15 @@ class Colony {
 private:
     string name;
     int population;
-    static int totalColonies; // Static variable to track total number of colonies
+    static int total_colonies;
 
 public:
     Colony(string n = "Unknown", int pop = 0) : name(n), population(pop) {
-        totalColonies++; // Increment total colonies count when a new colony is created
+        total_colonies++;
     }
 
-    ~Colony() {
-        totalColonies--; // Decrement total colonies count when a colony is destroyed
+    static int getTotalColonies() {
+        return total_colonies;
     }
 
     void growPopulation(int amount) {
@@ -27,84 +27,64 @@ public:
         cout << "The current population of " << this->name << " is " << this->population << "." << endl;
     }
 
-    static void reportTotalColonies() {
-        cout << "Total colonies created: " << totalColonies << endl;
-    }
-
-    string getName() {
-        return this->name; 
-    }
-
+   
     int getPopulation() {
         return this->population;
     }
 };
 
-// Initialize the static variable
-int Colony::totalColonies = 0;
+int Colony::total_colonies = 0;
 
 class Alien {
 private:
     string speciesName;
     int strength;
-    static int totalAttacks; // Static variable to track total number of attacks
+    static int total_attacks;
 
 public:
     Alien(string sName = "Unknown", int str = 0) : speciesName(sName), strength(str) {}
 
     void attack(Colony &colony) {
-        totalAttacks++; // Increment total attacks count when an attack happens
-        cout << "The " << this->speciesName << " attacks the colony " << colony.getName() << "!" << endl;
-        if (this->strength > colony.getPopulation()) {
-            cout << "The " << this->speciesName << " is too strong! The colony " << colony.getName() << " is overrun." << endl;
+        total_attacks++;
+        cout << "The " << this->speciesName << " attacks the colony!" << endl;
+        if (this->strength > colony.getPopulation()) {  // Calling the getPopulation() method here
+            cout << "The " << this->speciesName << " is too strong! The colony is overrun." << endl;
         } else {
-            cout << "The colony " << colony.getName() << " defends itself against the " << this->speciesName << "." << endl;
+            cout << "The colony defends itself against the " << this->speciesName << "." << endl;
         }
     }
 
-    static void reportTotalAttacks() {
-        cout << "Total alien attacks: " << totalAttacks << endl;
-    }
-
-    string getSpeciesName() {
-        return this->speciesName; 
+    static int getTotalAttacks() {
+        return total_attacks;
     }
 };
 
-// Initialize the static variable
-int Alien::totalAttacks = 0;
+int Alien::total_attacks = 0;
 
 int main() {
-
-    // Dynamically allocate memory for colonies and aliens
-    Colony* colonies = new Colony[3] {
-        Colony("Earth Colony", 100), 
-        Colony("Mars Colony", 150), 
-        Colony("Jupiter Colony", 80) 
+    // Create colonies
+    Colony* colonies = new Colony[3]{
+        Colony("Earth Colony", 100),
+        Colony("Mars Colony", 150),
+        Colony("Jupiter Colony", 80)
     };
 
-    Alien* alienSpecies = new Alien[2] {
-        Alien("Xenomorph", 120), 
-        Alien("Predator", 200) 
+    // Create aliens
+    Alien* alienSpecies = new Alien[2]{
+        Alien("Xenomorph", 120),
+        Alien("Predator", 200)
     };
 
-    // Report populations of all colonies
-    for(int i = 0; i < 3; i++) {
-        colonies[i].reportPopulation();
-    }
-
-    // Grow population of the first colony
+    // Report population and perform attacks
     colonies[0].growPopulation(50);
-
-    // Aliens attack different colonies
     alienSpecies[0].attack(colonies[0]);
     alienSpecies[1].attack(colonies[2]);
 
-    // Report total colonies and total attacks
-    Colony::reportTotalColonies();
-    Alien::reportTotalAttacks();
+    // Output total colonies and alien attacks using static member functions
+    cout << "Total colonies created: " << Colony::getTotalColonies() << endl;
+    cout << "Total alien attacks: " << Alien::getTotalAttacks() << endl;
 
-    // Free dynamically allocated memory
+    // Free memory
     delete[] colonies;
     delete[] alienSpecies;
 
