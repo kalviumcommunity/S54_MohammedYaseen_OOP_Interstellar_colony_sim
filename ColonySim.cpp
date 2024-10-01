@@ -53,15 +53,15 @@ public:
 
 // Main function
 int main() {
-    // Array of Colony objects
-    Colony colonies[3] = { 
+
+    // Dynamically allocate memory for colonies and aliens
+    Colony* colonies = new Colony[3] {
         Colony("Earth Colony", 100), 
         Colony("Mars Colony", 150), 
         Colony("Jupiter Colony", 80) 
     };
 
-    // Array of Alien objects
-    Alien alienSpecies[2] = { 
+    Alien* alienSpecies = new Alien[2] {
         Alien("Xenomorph", 120), 
         Alien("Predator", 200) 
     };
@@ -78,6 +78,9 @@ int main() {
     alienSpecies[0].attack(colonies[0]);
     alienSpecies[1].attack(colonies[2]);
 
+    // Free dynamically allocated memory
+    delete[] colonies;
+    delete[] alienSpecies;
+
     return 0;
 }
-
