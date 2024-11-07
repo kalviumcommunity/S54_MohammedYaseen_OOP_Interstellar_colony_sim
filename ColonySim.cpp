@@ -78,7 +78,7 @@ public:
     void attack(Colony &colony) {
         total_attacks++;
         cout << "The " << speciesName << " attacks the colony!" << endl;
-        if (strength > colony.getPopulation()) { 
+        if (strength > colony.getPopulation()) {
             cout << "The " << speciesName << " is too strong! The colony is overrun." << endl;
         } else {
             cout << "The colony defends itself against the " << speciesName << "." << endl;
