@@ -18,18 +18,29 @@ public:
         return total_colonies;
     }
 
+    string getName() const {
+        return name;
+    }
+
+    void setName(string n) {
+        name = n;
+    }
+
+    int getPopulation() const {
+        return population;
+    }
+
+    void setPopulation(int pop) {
+        population = pop;
+    }
+
     void growPopulation(int amount) {
-        this->population += amount; 
-        cout << "The population of " << this->name << " has grown by " << amount << ". New population: " << this->population << endl;
+        population += amount;
+        cout << "The population of " << name << " has grown by " << amount << ". New population: " << population << endl;
     }
 
-    void reportPopulation() {
-        cout << "The current population of " << this->name << " is " << this->population << "." << endl;
-    }
-
-   
-    int getPopulation() {
-        return this->population;
+    void reportPopulation() const {
+        cout << "The current population of " << name << " is " << population << "." << endl;
     }
 };
 
@@ -44,47 +55,58 @@ private:
 public:
     Alien(string sName = "Unknown", int str = 0) : speciesName(sName), strength(str) {}
 
-    void attack(Colony &colony) {
-        total_attacks++;
-        cout << "The " << this->speciesName << " attacks the colony!" << endl;
-        if (this->strength > colony.getPopulation()) {  // Calling the getPopulation() method here
-            cout << "The " << this->speciesName << " is too strong! The colony is overrun." << endl;
-        } else {
-            cout << "The colony defends itself against the " << this->speciesName << "." << endl;
-        }
-    }
-
     static int getTotalAttacks() {
         return total_attacks;
+    }
+
+    string getSpeciesName() const {
+        return speciesName;
+    }
+
+    void setSpeciesName(string sName) {
+        speciesName = sName;
+    }
+
+    int getStrength() const {
+        return strength;
+    }
+
+    void setStrength(int str) {
+        strength = str;
+    }
+
+    void attack(Colony &colony) {
+        total_attacks++;
+        cout << "The " << speciesName << " attacks the colony!" << endl;
+        if (strength > colony.getPopulation()) { 
+            cout << "The " << speciesName << " is too strong! The colony is overrun." << endl;
+        } else {
+            cout << "The colony defends itself against the " << speciesName << "." << endl;
+        }
     }
 };
 
 int Alien::total_attacks = 0;
 
 int main() {
-    // Create colonies
     Colony* colonies = new Colony[3]{
         Colony("Earth Colony", 100),
         Colony("Mars Colony", 150),
         Colony("Jupiter Colony", 80)
     };
 
-    // Create aliens
     Alien* alienSpecies = new Alien[2]{
         Alien("Xenomorph", 120),
         Alien("Predator", 200)
     };
 
-    // Report population and perform attacks
     colonies[0].growPopulation(50);
     alienSpecies[0].attack(colonies[0]);
     alienSpecies[1].attack(colonies[2]);
 
-    // Output total colonies and alien attacks using static member functions
     cout << "Total colonies created: " << Colony::getTotalColonies() << endl;
     cout << "Total alien attacks: " << Alien::getTotalAttacks() << endl;
 
-    // Free memory
     delete[] colonies;
     delete[] alienSpecies;
 
